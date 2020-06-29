@@ -5,6 +5,7 @@
 #include <vector>
 #include <string>
 #include <sstream>
+#include <ui_mainwindow.h>
 
 class Game;
 class Board;
@@ -204,14 +205,14 @@ class Game {
             }
             return false; // already initialized
         }
-        bool start() {
+        bool start(QMainWindow* w) {
             if(board == nullptr) {
                 ini();
             }
-            return play_game();
+            return play_game(w);
         }
-        bool play_game();
-        void print_game_state() {
+        bool play_game(QMainWindow* w);
+        void print_game_state(QMainWindow* w) {
             if(game_state == GameState::lost) {
                 board -> print_board(true);
                 std::cout << "FAIL\n";
@@ -219,6 +220,11 @@ class Game {
                 board -> print_board(true);
                 std::cout << "WIN\n";
             } else {
+                QString num_unexposed_str;
+                num_unexposed_str.setNum(board -> num_of_unexposed);
+                Ui::MainWindow *ui = new Ui::MainWindow;
+                ui->setupUi(w);
+                ui->num_unexposed->setText(num_unexposed_str);
                 std::cout << "Number of unexposed elements: " << board -> num_of_unexposed << '\n';
                 board -> print_board(false);
             }
@@ -283,7 +289,7 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play)
     return std::make_shared<UserPlayResult>(res, GameState::playing);
 }
 
-bool Game::play_game() {
+bool Game::play_game(QMainWindow* w) {
 //    print_game_state();
 //    std::string input;
 //    while (game_state == GameState::playing)
@@ -302,7 +308,7 @@ bool Game::play_game() {
 //        } else {
 //            std::cout << "Cell (" << play -> row << ", " << play -> col << ") is not possible to flip.\n";
 //        }
-//        print_game_state();
+        print_game_state(w);
 //    }
     return true;
 }

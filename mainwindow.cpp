@@ -7,21 +7,9 @@ MainWindow::MainWindow(QWidget *parent) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    QString num_unexposed_str;
-    num_unexposed_str.setNum(5);
-    ui->num_unexposed->setText(num_unexposed_str);
     Game game(7, 7, 3);
     game.ini();
-    game.start();
-}
-
-void MainWindow::execute()
-{
-    Ui::MainWindow *ui;
-    ui = new Ui::MainWindow;
-    QString num_unexposed_str;
-    num_unexposed_str.setNum(1);
-    ui->num_unexposed->setText(num_unexposed_str);
+    game.start(this);
 }
 
 MainWindow::~MainWindow()
