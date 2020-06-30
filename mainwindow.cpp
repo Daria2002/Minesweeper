@@ -1,6 +1,12 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
 #include "minesweeper.cpp"
+#include <QtWidgets>
+#include <QMainWindow>
+#include <QApplication>
+#include <QtWidgets>
+#include <QMainWindow>
+#include <QtGui>
 
 MainWindow::MainWindow(QWidget *parent) :
     QMainWindow(parent),
