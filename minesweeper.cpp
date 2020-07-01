@@ -197,7 +197,10 @@ class Game {
         Game(int r, int c, int b) : rows(r), columns(c), bombs(b) {
             game_state = GameState::playing;
         }
-        bool ini() {
+        bool ini(QLabel* unexposed_label) {
+            QString num_unexposed_str;
+            num_unexposed_str.setNum(board -> num_of_unexposed);
+            unexposed_label->setText(num_unexposed_str);
             if(board == nullptr) {
                 board = std::make_shared<Board>(rows, columns, bombs);
                 board -> print_board(true); // show real board
@@ -205,14 +208,14 @@ class Game {
             }
             return false; // already initialized
         }
-        bool start(QMainWindow* w) {
+        bool start(QMainWindow* w, QLabel* unexposed_label) {
             if(board == nullptr) {
-                ini();
+                ini(unexposed_label);
             }
-            return play_game(w);
+            return play_game(w, unexposed_label);
         }
-        bool play_game(QMainWindow* w);
-        void print_game_state(QMainWindow* w) {
+        bool play_game(QMainWindow* w, QLabel* unexposed_label);
+        void print_game_state(QMainWindow* w, QLabel* unexposed_label) {
             if(game_state == GameState::lost) {
                 board -> print_board(true);
                 std::cout << "FAIL\n";
@@ -222,9 +225,7 @@ class Game {
             } else {
                 QString num_unexposed_str;
                 num_unexposed_str.setNum(board -> num_of_unexposed);
-                Ui::MainWindow *ui = new Ui::MainWindow;
-                ui->setupUi(w);
-                ui->num_unexposed->setText(num_unexposed_str);
+                unexposed_label->setText(num_unexposed_str);
                 std::cout << "Number of unexposed elements: " << board -> num_of_unexposed << '\n';
                 board -> print_board(false);
             }
@@ -289,7 +290,7 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play)
     return std::make_shared<UserPlayResult>(res, GameState::playing);
 }
 
-bool Game::play_game(QMainWindow* w) {
+bool Game::play_game(QMainWindow* w, QLabel* unexposed_label) {
 //    print_game_state();
 //    std::string input;
 //    while (game_state == GameState::playing)
@@ -308,7 +309,7 @@ bool Game::play_game(QMainWindow* w) {
 //        } else {
 //            std::cout << "Cell (" << play -> row << ", " << play -> col << ") is not possible to flip.\n";
 //        }
-        print_game_state(w);
+        print_game_state(w, unexposed_label);
 //    }
     return true;
 }

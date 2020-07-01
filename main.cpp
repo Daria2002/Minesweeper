@@ -22,7 +22,6 @@ public:
         QLabel *label_text = new QLabel;
         label_text->setText("Number of unexposed fields:");
         QLabel *label_data = new QLabel;
-        label_data->setText("Number");
         grid_layout->addWidget(label_text, 0, 0);
         grid_layout->addWidget(label_data, 0, 1);
         int size = 7;

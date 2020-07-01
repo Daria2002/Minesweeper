@@ -8,14 +8,14 @@
 #include <QMainWindow>
 #include <QtGui>
 
-MainWindow::MainWindow(QWidget *parent) :
+MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
     Game game(7, 7, 3);
-    game.ini();
-    game.start(this);
+    game.ini(unexposed_label);
+    game.start(this, unexposed_label);
 }
 
 MainWindow::~MainWindow()
