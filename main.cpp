@@ -19,18 +19,22 @@ public:
                       "stop:1 rgba(217, 73, 73, 255));"
                       "border:none; color:white;}");
         QGridLayout *grid_layout = new QGridLayout;
+        QLabel *label_text = new QLabel;
+        label_text->setText("Number of unexposed fields:");
+        QLabel *label_data = new QLabel;
+        label_data->setText("Number");
+        grid_layout->addWidget(label_text, 0, 0);
+        grid_layout->addWidget(label_data, 0, 1);
         int size = 7;
         for(int i = 0; i < size; i++)
         {
-            for(int j = 0; j < size; j++) {
+            for(int j = 2; j <= size + 1; j++) {
                 QPushButton *button = new QPushButton;
-                button->setFixedSize(80, 80);
+                button->setFixedSize(50, 50);
                 button->setText("");
-                grid_layout->addWidget(button, j, i);
+                grid_layout->addWidget(button, i, j);
             }
         }
-        grid_layout->setAlignment(Qt::AlignCenter);
-        grid_layout->setSpacing(1);
         setLayout(grid_layout);
     }
 };
