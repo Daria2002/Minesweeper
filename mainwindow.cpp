@@ -7,9 +7,11 @@
 #include <QApplication>
 #include <QtWidgets>
 #include <QMainWindow>
+#include <QPushButton>
+#include <vector>
 #include <QtGui>
 
-MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label) :
+MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label, std::vector<QPushButton*> buttons) :
     QMainWindow(parent),
     ui(new Ui::MainWindow)
 {
