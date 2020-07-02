@@ -198,12 +198,12 @@ class Game {
             game_state = GameState::playing;
         }
         bool ini(QLabel* unexposed_label) {
-            QString num_unexposed_str;
-            num_unexposed_str.setNum(board -> num_of_unexposed);
-            unexposed_label->setText(num_unexposed_str);
             if(board == nullptr) {
                 board = std::make_shared<Board>(rows, columns, bombs);
                 board -> print_board(true); // show real board
+                QString num_unexposed_str;
+                num_unexposed_str.setNum(board -> num_of_unexposed);
+                unexposed_label->setText(num_unexposed_str);
                 return true;
             }
             return false; // already initialized

@@ -2,6 +2,7 @@
 #include "ui_mainwindow.h"
 #include "minesweeper.cpp"
 #include <QtWidgets>
+#include <iostream>
 #include <QMainWindow>
 #include <QApplication>
 #include <QtWidgets>
@@ -13,6 +14,7 @@ MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+    std::cout << "Main window constructor\n";
     Game game(7, 7, 3);
     game.ini(unexposed_label);
     game.start(this, unexposed_label);

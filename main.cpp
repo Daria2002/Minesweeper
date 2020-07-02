@@ -5,6 +5,7 @@
 #include <QApplication>
 #include <QGroupBox>
 #include <QLayout>
+#include <iostream>
 #include <QPushButton>
 
 class MyWidget : public QGroupBox
@@ -21,7 +22,7 @@ public:
         QGridLayout *grid_layout = new QGridLayout;
         QLabel *label_text = new QLabel;
         label_text->setText("Number of unexposed fields:");
-        QLabel *label_data = new QLabel;
+        label_data = new QLabel;
         grid_layout->addWidget(label_text, 0, 0);
         grid_layout->addWidget(label_data, 0, 1);
         int size = 7;
@@ -36,14 +37,16 @@ public:
         }
         setLayout(grid_layout);
     }
+    QLabel *label_data;
 };
 
 int main(int argc, char *argv[])
 {
+    std::cout << "Main function starts\n";
     QApplication a(argc, argv);
-    MyWidget widget;
-    widget.resize(800, 200);
-    widget.show();
+    MyWidget* widget = new MyWidget();
+    MainWindow w(widget, widget -> label_data);
+    widget -> show();
     return a.exec();
 }
 
