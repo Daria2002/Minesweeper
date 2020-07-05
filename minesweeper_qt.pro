@@ -29,7 +29,8 @@ SOURCES += \
     minesweeper.cpp
 
 HEADERS += \
-        mainwindow.h
+        mainwindow.h \
+    minesweeper.h
 
 FORMS += \
         mainwindow.ui

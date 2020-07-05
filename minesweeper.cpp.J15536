@@ -181,6 +181,7 @@ bool Game::start(QMainWindow* w, QLabel* unexposed_label) {
     }
     return play_game(w, unexposed_label);
 }
+bool Game::play_game(QMainWindow* w, QLabel* unexposed_label);
 void Game::print_game_state(QMainWindow* w, QLabel* unexposed_label) {
     if(game_state == GameState::lost) {
         board -> print_board(true);
@@ -197,7 +198,12 @@ void Game::print_game_state(QMainWindow* w, QLabel* unexposed_label) {
     }
 }
 
-UserPlayResult::UserPlayResult(bool sm, GameState s) : successful_move(sm), state(s) {}
+class UserPlayResult {
+    public:
+        UserPlayResult(bool sm, GameState s) : successful_move(sm), state(s) {}
+        bool successful_move;
+        GameState state;
+};
 
 void split(const std::string& str, std::vector<std::string>& cont, char delim = ' ')
 {
@@ -208,7 +214,13 @@ void split(const std::string& str, std::vector<std::string>& cont, char delim = 
     }
 }
 
-UserPlay::UserPlay(int r, int c, bool guess) : row(r), col(c), is_guess(guess) {}
+class UserPlay : public std::enable_shared_from_this<UserPlay> {
+    public:
+        int row, col;
+        bool is_guess;
+        UserPlay() = default;
+        UserPlay(int r, int c, bool guess) : row(r), col(c), is_guess(guess) {}
+};
 
 static std::shared_ptr<UserPlay> from_string(std::string input) {
     bool isguess = false;
