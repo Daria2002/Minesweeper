@@ -223,6 +223,11 @@ static std::shared_ptr<UserPlay> from_string(std::string input) {
     return std::make_shared<UserPlay>(r, c, isguess);
 }
 
+std::shared_ptr<UserPlay> Game::from_string(int r, int c) {
+    bool isguess = false;
+    return std::make_shared<UserPlay>(r, c, isguess);
+}
+
 std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play) {
     if(in_bounds(play -> row, play -> col) == false) {
         return std::make_shared<UserPlayResult>(false, GameState::playing);

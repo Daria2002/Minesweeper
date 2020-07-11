@@ -68,6 +68,7 @@ class Game {
         bool start(QMainWindow* w, QLabel* unexposed_label);
         bool play_game(QMainWindow* w, QLabel* unexposed_label);
         void print_game_state(QMainWindow* w, QLabel* unexposed_label);
+        std::shared_ptr<UserPlay> from_string(int r, int c);
 };
 
 class UserPlayResult {
