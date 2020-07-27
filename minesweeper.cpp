@@ -228,7 +228,9 @@ std::shared_ptr<UserPlay> Game::from_string(int r, int c) {
     return std::make_shared<UserPlay>(r, c, isguess);
 }
 
-std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play) {
+std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
+                                                 std::vector<QPushButton*> buttons,
+                                                 int num_of_cols) {
     if(in_bounds(play -> row, play -> col) == false) {
         return std::make_shared<UserPlayResult>(false, GameState::playing);
     }
@@ -239,6 +241,8 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play)
     }
     bool res = flip_cell(cell);
     if(cell->is_bomb) {
+        QString str = "*";
+        buttons[play -> row * num_of_cols + play -> col] -> setText(str);
         return std::make_shared<UserPlayResult>(res, GameState::lost);
     } else if(cell->is_blank()) {
         expand_blank(cell);

@@ -13,14 +13,15 @@
 #include "minesweeper.h"
 #include <mainwindow.h>
 
-MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label, std::vector<QPushButton*> buttons) :
+MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label, std::vector<QPushButton*> b) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     ul(unexposed_label)
 {
+    buttons = b;
     ui->setupUi(this);
     std::cout << "Main window constructor\n";
-    game = new Game(7, 7, 3);
+    game = new Game(num_of_rows, num_of_cols, num_of_bombs);
     for(int i = 0; i < buttons.size(); i++) {
         QString str;
         str.setNum(i);
@@ -33,10 +34,10 @@ MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label, std::vector<QPu
 
 void MainWindow::clickedSlot()
 {
-    int row = (((QPushButton*)sender())->text()).toInt() / 7;
-    int col = (((QPushButton*)sender())->text()).toInt() % 7;
+    int row = (((QPushButton*)sender())->text()).toInt() / num_of_cols;
+    int col = (((QPushButton*)sender())->text()).toInt() % num_of_cols;
     std::shared_ptr<UserPlay> play = game -> from_string(row, col);
-    std::shared_ptr<UserPlayResult> result = game -> board -> play_flip(play);
+    std::shared_ptr<UserPlayResult> result = game -> board -> play_flip(play, buttons, num_of_cols);
     if(result -> successful_move) {
         game -> game_state = result -> state;
     } else {
