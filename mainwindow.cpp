@@ -36,20 +36,14 @@ void MainWindow::clickedSlot()
 {
     int row = (((QPushButton*)sender())->text()).toInt() / num_of_cols;
     int col = (((QPushButton*)sender())->text()).toInt() % num_of_cols;
-    std::shared_ptr<UserPlay> play = game -> from_string(row, col);
-    std::shared_ptr<UserPlayResult> result = game -> board -> play_flip(play, buttons, num_of_cols);
-    if(result -> successful_move) {
-        game -> game_state = result -> state;
+    std::shared_ptr<UserPlay> play = game->from_string(row, col);
+    std::shared_ptr<UserPlayResult> result = game->board->play_flip(play, buttons, num_of_cols);
+    if(result->successful_move) {
+        game->game_state = result -> state;
     } else {
         std::cout << "Cell (" << play -> row << ", " << play -> col << ") is not possible to flip.\n";
     }
-    game -> print_game_state(this, ul);
-    /*
-    QMessageBox msgBox;
-    msgBox.setWindowTitle("MessageBox Title");
-    msgBox.setText("You Clicked "+ ((QPushButton*)sender())->text());
-    msgBox.exec();
-    */
+    game->print_game_state(this, ul);
 }
 
 MainWindow::~MainWindow()

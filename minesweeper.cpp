@@ -65,7 +65,7 @@ void Board::ini_board() {
         int r = i/n_columns;
         int c = (i - r*n_columns) % n_columns;
         bombs.push_back(cells[r][c]);
-        bombs[i] -> set_bomb(true);
+        bombs[i]->set_bomb(true);
     }
 }
 void Board::shuffle_board() {
@@ -76,17 +76,17 @@ void Board::shuffle_board() {
         if(index1 != index2) {
             // get cell at index1
             int row1 = index1 / n_columns;
-            int column1 = (index1 - row1*n_columns) % n_columns;
+            int column1 = (index1 - row1 * n_columns) % n_columns;
             std::shared_ptr<Cell> cell1 = cells[row1][column1];
             // get cell at index2
             int row2 = index2 / n_columns;
-            int column2 = (index2 - row2*n_columns) % n_columns;
+            int column2 = (index2 - row2 * n_columns) % n_columns;
             std::shared_ptr<Cell> cell2 = cells[row2][column2];
             // swap
             cells[row1][column1] = cell2;
-            cell2 -> set_row_and_col(row1, column1);
+            cell2->set_row_and_col(row1, column1);
             cells[row2][column2] = cell1;
-            cell1 -> set_row_and_col(row2, column2);
+            cell1->set_row_and_col(row2, column2);
         }
     }
 }
@@ -96,13 +96,13 @@ bool Board::in_bounds(int row, int column) {
 void Board::set_numbered_cells() {
     std::vector<std::vector<int>> offsets = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
     for(std::shared_ptr<Cell>& bomb : bombs) {
-        int row = bomb -> row;
-        int col = bomb -> column;
+        int row = bomb->row;
+        int col = bomb->column;
         for(std::vector<int>& offset : offsets) { // for every surranding cell
             int r = row + offset[0]; // make surranding cell row
             int c = col + offset[1]; // make surranding cell column
             if(in_bounds(r, c)) {
-                cells[r][c] -> num++;
+                cells[r][c]->num++;
             }
         }
     }
@@ -121,17 +121,17 @@ void Board::print_board(bool show_real) {
         std::cout << r << "| ";
         for(int c = 0; c < n_columns; c++) {
             if(show_real) {
-                std::cout << cells[r][c] -> get_real_state();
+                std::cout << cells[r][c]->get_real_state();
             } else {
-                std::cout << cells[r][c] -> get_revealed_state();
+                std::cout << cells[r][c]->get_revealed_state();
             }
         }
         std::cout << '\n';
     }
 }
 bool Board::flip_cell(std::shared_ptr<Cell> cell) {
-    if(!cell -> is_exposed && !cell -> is_guess) {
-        cell -> flip();
+    if(!cell->is_exposed && !cell->is_guess) {
+        cell->flip();
         num_of_unexposed--;
         return true;
     }
@@ -147,13 +147,13 @@ void Board::expand_blank(std::shared_ptr<Cell> cell) {
     {
         current = to_be_explored.back();
         to_be_explored.pop_back();
-        current -> is_exposed = true;
+        current->is_exposed = true;
         for(std::vector<int> offset : offsets) {
             int r = current->row + offset[0];
             int c = current->column + offset[1];
             if(in_bounds(r, c)) {
                 neighbor = cells[r][c];
-                if(neighbor -> is_blank() && flip_cell(neighbor)) {
+                if(neighbor->is_blank() && flip_cell(neighbor)) {
                     to_be_explored.push_back(neighbor);
                 }
             }
@@ -167,9 +167,9 @@ Game::Game(int r, int c, int b) : rows(r), columns(c), bombs(b) {
 bool Game::ini(QLabel* unexposed_label) {
     if(board == nullptr) {
         board = std::make_shared<Board>(rows, columns, bombs);
-        board -> print_board(true); // show real board
+        board->print_board(true); // show real board
         QString num_unexposed_str;
-        num_unexposed_str.setNum(board -> num_of_unexposed);
+        num_unexposed_str.setNum(board->num_of_unexposed);
         unexposed_label->setText(num_unexposed_str);
         return true;
     }
@@ -183,17 +183,17 @@ bool Game::start(QMainWindow* w, QLabel* unexposed_label) {
 }
 void Game::print_game_state(QMainWindow* w, QLabel* unexposed_label) {
     if(game_state == GameState::lost) {
-        board -> print_board(true);
+        board->print_board(true);
         std::cout << "FAIL\n";
     } else if(game_state == GameState::won) {
-        board -> print_board(true);
+        board->print_board(true);
         std::cout << "WIN\n";
     } else {
         QString num_unexposed_str;
-        num_unexposed_str.setNum(board -> num_of_unexposed);
+        num_unexposed_str.setNum(board->num_of_unexposed);
         unexposed_label->setText(num_unexposed_str);
-        std::cout << "Number of unexposed elements: " << board -> num_of_unexposed << '\n';
-        board -> print_board(false);
+        std::cout << "Number of unexposed elements: " << board->num_of_unexposed << '\n';
+        board->print_board(false);
     }
 }
 
@@ -231,18 +231,18 @@ std::shared_ptr<UserPlay> Game::from_string(int r, int c) {
 std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
                                                  std::vector<QPushButton*> buttons,
                                                  int num_of_cols) {
-    if(in_bounds(play -> row, play -> col) == false) {
+    if(in_bounds(play->row, play->col) == false) {
         return std::make_shared<UserPlayResult>(false, GameState::playing);
     }
-    std::shared_ptr<Cell> cell = cells[play -> row][play -> col];
-    if(play -> is_guess) {
-        bool guess_res = cell -> toggle_guess();
+    std::shared_ptr<Cell> cell = cells[play->row][play->col];
+    if(play->is_guess) {
+        bool guess_res = cell->toggle_guess();
         return std::make_shared<UserPlayResult>(guess_res, GameState::playing);
     }
     bool res = flip_cell(cell);
     if(cell->is_bomb) {
         QString str = "*";
-        buttons[play -> row * num_of_cols + play -> col] -> setText(str);
+        buttons[play->row * num_of_cols + play->col]->setText(str);
         return std::make_shared<UserPlayResult>(res, GameState::lost);
     } else if(cell->is_blank()) {
         expand_blank(cell);
@@ -266,11 +266,11 @@ bool Game::play_game(QMainWindow* w, QLabel* unexposed_label) {
 //        if(play == nullptr) {
 //            continue;
 //        }
-//        std::shared_ptr<UserPlayResult> result = board -> play_flip(play);
-//        if(result -> successful_move) {
-//            game_state = result -> state;
+//        std::shared_ptr<UserPlayResult> result = board->play_flip(play);
+//        if(result->successful_move) {
+//            game_state = result->state;
 //        } else {
-//            std::cout << "Cell (" << play -> row << ", " << play -> col << ") is not possible to flip.\n";
+//            std::cout << "Cell (" << play->row << ", " << play->col << ") is not possible to flip.\n";
 //        }
         print_game_state(w, unexposed_label);
 //    }
