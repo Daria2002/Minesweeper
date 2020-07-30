@@ -257,6 +257,11 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
         buttons[play->row * num_of_cols + play->col]->setText(str);
     }
     if(num_of_unexposed == 0) {
+        // display bombs because player won
+        for(std::shared_ptr<Cell> bomb : bombs) {
+            QString str = "*";
+            buttons[bomb->row * num_of_cols + bomb->column]->setText(str);
+        }
         return std::make_shared<UserPlayResult>(res, GameState::won);
     }
     return std::make_shared<UserPlayResult>(res, GameState::playing);
