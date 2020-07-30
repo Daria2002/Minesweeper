@@ -137,7 +137,9 @@ bool Board::flip_cell(std::shared_ptr<Cell> cell) {
     }
     return false;
 }
-void Board::expand_blank(std::shared_ptr<Cell> cell) {
+void Board::expand_blank(std::shared_ptr<Cell> cell,
+                         std::vector<QPushButton*> buttons,
+                         int num_of_cols) {
     std::vector<std::vector<int>> offsets = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
     std::vector<std::shared_ptr<Cell>> to_be_explored;
     to_be_explored.push_back(cell);
@@ -154,6 +156,8 @@ void Board::expand_blank(std::shared_ptr<Cell> cell) {
             if(in_bounds(r, c)) {
                 neighbor = cells[r][c];
                 if(neighbor->is_blank() && flip_cell(neighbor)) {
+                    QString str = " ";
+                    buttons[r * num_of_cols + c]->setText(str);
                     to_be_explored.push_back(neighbor);
                 }
             }
@@ -244,8 +248,10 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
         QString str = "*";
         buttons[play->row * num_of_cols + play->col]->setText(str);
         return std::make_shared<UserPlayResult>(res, GameState::lost);
-    } else if(cell->is_blank()) {
-        expand_blank(cell);
+    } else if(cell->is_blank()) { // set text to " " because it's a blank cell
+        QString str = " ";
+        buttons[play->row * num_of_cols + play->col]->setText(str);
+        expand_blank(cell, buttons, num_of_cols);
     }
     if(num_of_unexposed == 0) {
         return std::make_shared<UserPlayResult>(res, GameState::won);
