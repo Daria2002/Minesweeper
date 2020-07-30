@@ -31,9 +31,10 @@ class Cell {
         bool is_blank();
         void set_row_and_col(int r, int c);
         int column, row;
-        bool is_bomb, is_exposed;
+        bool is_exposed = false;
         bool is_guess = false;
         int num = 0;
+        bool is_bomb = false;
 };
 
 class Board {
