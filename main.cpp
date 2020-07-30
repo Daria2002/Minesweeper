@@ -49,7 +49,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MyWidget* widget = new MyWidget();
     MainWindow w(widget, widget -> label_data, widget -> buttons);
-    widget -> show();
+    widget->show();
     return a.exec();
 }
 

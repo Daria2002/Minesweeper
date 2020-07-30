@@ -38,6 +38,14 @@ void MainWindow::clickedSlot()
     int col = (((QPushButton*)sender())->text()).toInt() % num_of_cols;
     std::shared_ptr<UserPlay> play = game->from_string(row, col);
     std::shared_ptr<UserPlayResult> result = game->board->play_flip(play, buttons, num_of_cols);
+    if(result->state == GameState::lost || result->state == GameState::won) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Game status");
+        msgBox.setText(result->state == GameState::lost ? "Game over. You lost." : "Game over. You won.");
+        msgBox.exec();
+        exit(0); // close main window
+        return;
+    }
     if(result->successful_move) {
         game->game_state = result -> state;
     } else {
