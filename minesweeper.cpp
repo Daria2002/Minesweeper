@@ -252,6 +252,9 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
         QString str = " ";
         buttons[play->row * num_of_cols + play->col]->setText(str);
         expand_blank(cell, buttons, num_of_cols);
+    } else { // if num
+        QString str = QString::fromUtf8(cell->get_real_state().data());
+        buttons[play->row * num_of_cols + play->col]->setText(str);
     }
     if(num_of_unexposed == 0) {
         return std::make_shared<UserPlayResult>(res, GameState::won);
