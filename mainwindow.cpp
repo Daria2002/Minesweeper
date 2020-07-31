@@ -36,6 +36,14 @@ void MainWindow::clickedSlot()
 {
     int row = (((QPushButton*)sender())->text()).toInt() / num_of_cols;
     int col = (((QPushButton*)sender())->text()).toInt() % num_of_cols;
+    if(first_move) {
+        first_move = false;
+        // shuffle board until first move is not a bomb
+        while(game->board->cells[row][col]->is_bomb) {
+            std::cout << "Shuffle a board\n";
+            game->board->shuffle_board();
+        }
+    }
     std::shared_ptr<UserPlay> play = game->from_string(row, col);
     std::shared_ptr<UserPlayResult> result = game->board->play_flip(play, buttons, num_of_cols);
     if(result->state == GameState::lost || result->state == GameState::won) {

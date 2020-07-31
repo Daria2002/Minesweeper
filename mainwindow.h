@@ -28,6 +28,7 @@ private:
     const int num_of_rows = 7;
     const int num_of_cols = 7;
     const int num_of_bombs = 3;
+    bool first_move = true; // flag for the 1st move (1st move cannot be a bomb)
 
 public slots:
 void clickedSlot();
