@@ -160,6 +160,12 @@ void Board::expand_blank(std::shared_ptr<Cell> cell,
                     buttons[r * num_of_cols + c]->setText(str);
                     to_be_explored.push_back(neighbor);
                 }
+                //  if a cell is a bomb neighbour display a number
+                if(!neighbor->is_blank()) {
+                    QString str;
+                    str.setNum(std::stoi(neighbor->get_real_state()));
+                    buttons[r * num_of_cols + c]->setText(str);
+                }
             }
         }
     }

@@ -20,7 +20,6 @@ MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label, std::vector<QPu
 {
     buttons = b;
     ui->setupUi(this);
-    std::cout << "Main window constructor\n";
     game = new Game(num_of_rows, num_of_cols, num_of_bombs);
     for(int i = 0; i < buttons.size(); i++) {
         QString str;
@@ -40,7 +39,6 @@ void MainWindow::clickedSlot()
         first_move = false;
         // shuffle board until first move is not a bomb
         while(game->board->cells[row][col]->is_bomb) {
-            std::cout << "Shuffle a board\n";
             game->board->shuffle_board();
         }
     }
