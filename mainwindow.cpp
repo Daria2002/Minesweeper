@@ -13,7 +13,12 @@
 #include "minesweeper.h"
 #include <mainwindow.h>
 
-MainWindow::MainWindow(QWidget *parent, QLabel* unexposed_label, std::vector<QPushButton*> b) :
+MainWindow::MainWindow(int num_of_rows,
+                       int num_of_cols,
+                       int num_of_bombs,
+                       std::vector<QPushButton*> b,
+                       QWidget *parent,
+                       QLabel* unexposed_label) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
     ul(unexposed_label)

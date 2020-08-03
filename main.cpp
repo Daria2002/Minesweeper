@@ -12,7 +12,7 @@
 class MyWidget : public QGroupBox
 {
 public:
-    MyWidget(QWidget *parent = 0) : QGroupBox(parent)
+    MyWidget(int rows, int cols, QWidget *parent = 0) : QGroupBox(parent)
     {
         setTitle("Minesweeper");
         setStyleSheet("QPushButton{background-color: qlineargradient(spread:pad, x1:1, y1:0.682,"
@@ -26,10 +26,9 @@ public:
         label_data = new QLabel;
         grid_layout->addWidget(label_text, 0, 0);
         grid_layout->addWidget(label_data, 0, 1);
-        int size = 7;
-        for(int i = 0; i < size; i++)
+        for(int i = 0; i < rows; i++)
         {
-            for(int j = 2; j <= size + 1; j++) {
+            for(int j = 2; j <= cols + 1; j++) {
                 QPushButton *button = new QPushButton;
                 button->setFixedSize(50, 50);
                 button->setText("");
@@ -45,10 +44,14 @@ public:
 
 int main(int argc, char *argv[])
 {
+    const int num_of_rows = 20;
+    const int num_of_cols = 20;
+    const int num_of_bombs = 10;
     std::cout << "Main function starts\n";
     QApplication a(argc, argv);
-    MyWidget* widget = new MyWidget();
-    MainWindow w(widget, widget -> label_data, widget -> buttons);
+    MyWidget* widget = new MyWidget(num_of_rows, num_of_cols);
+    MainWindow w(num_of_rows, num_of_cols, num_of_bombs, widget -> buttons,
+                 widget, widget -> label_data);
     widget->show();
     return a.exec();
 }
