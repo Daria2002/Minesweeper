@@ -28,9 +28,9 @@ public:
 private:
     Ui::MainWindow *ui;
     std::vector<QPushButton*> buttons;
-    const int num_of_rows = 20;
-    const int num_of_cols = 20;
-    const int num_of_bombs = 10;
+    const int num_of_rows;
+    const int num_of_cols;
+    const int num_of_bombs;
     bool first_move = true; // flag for the 1st move (1st move cannot be a bomb)
 
 public slots:

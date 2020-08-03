@@ -44,8 +44,8 @@ public:
 
 int main(int argc, char *argv[])
 {
-    const int num_of_rows = 20;
-    const int num_of_cols = 20;
+    const int num_of_rows = 10;
+    const int num_of_cols = 10;
     const int num_of_bombs = 10;
     std::cout << "Main function starts\n";
     QApplication a(argc, argv);

@@ -13,15 +13,18 @@
 #include "minesweeper.h"
 #include <mainwindow.h>
 
-MainWindow::MainWindow(int num_of_rows,
-                       int num_of_cols,
-                       int num_of_bombs,
+MainWindow::MainWindow(int rows,
+                       int cols,
+                       int bombs,
                        std::vector<QPushButton*> b,
                        QWidget *parent,
                        QLabel* unexposed_label) :
     QMainWindow(parent),
     ui(new Ui::MainWindow),
-    ul(unexposed_label)
+    ul(unexposed_label),
+    num_of_cols(cols),
+    num_of_rows(rows),
+    num_of_bombs(bombs)
 {
     buttons = b;
     ui->setupUi(this);
@@ -30,6 +33,8 @@ MainWindow::MainWindow(int num_of_rows,
         QString str;
         str.setNum(i);
         buttons[i]->setText(str);
+        const QSize BUTTON_SIZE = QSize(22, 22);
+        buttons[i]->setMinimumSize(BUTTON_SIZE);
         QObject::connect(buttons[i], SIGNAL(released()), this, SLOT(clickedSlot()));
     }
     game->ini(unexposed_label);
