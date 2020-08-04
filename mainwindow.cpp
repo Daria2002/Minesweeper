@@ -30,9 +30,10 @@ MainWindow::MainWindow(int rows,
     ui->setupUi(this);
     game = new Game(num_of_rows, num_of_cols, num_of_bombs);
     for(int i = 0; i < buttons.size(); i++) {
-        QString str;
-        str.setNum(i);
+        QString str("X");
         buttons[i]->setText(str);
+        str.setNum(i);
+        buttons[i]->setAccessibleName(str); // set button name to button number
         const QSize BUTTON_SIZE = QSize(22, 22);
         buttons[i]->setMinimumSize(BUTTON_SIZE);
         QObject::connect(buttons[i], SIGNAL(released()), this, SLOT(clickedSlot()));
@@ -43,8 +44,8 @@ MainWindow::MainWindow(int rows,
 
 void MainWindow::clickedSlot()
 {
-    int row = (((QPushButton*)sender())->text()).toInt() / num_of_cols;
-    int col = (((QPushButton*)sender())->text()).toInt() % num_of_cols;
+    int row = (((QPushButton*)sender())->accessibleName()).toInt() / num_of_cols;
+    int col = (((QPushButton*)sender())->accessibleName()).toInt() % num_of_cols;
     if(first_move) {
         first_move = false;
         // shuffle board until first move is not a bomb
