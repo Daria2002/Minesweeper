@@ -71,8 +71,6 @@ class Game {
         Game() = default;
         Game(int r, int c, int b);
         bool ini(QLabel* unexposed_label);
-        bool start(QMainWindow* w, QLabel* unexposed_label);
-        bool play_game(QMainWindow* w, QLabel* unexposed_label);
         void print_game_state(QMainWindow* w, QLabel* unexposed_label);
         std::shared_ptr<UserPlay> from_string(int r, int c);
 };

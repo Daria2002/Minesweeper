@@ -10,8 +10,7 @@
 #include <QMessageBox>
 #include <QVBoxLayout>
 #include <QtGui>
-#include "minesweeper.h"
-#include <mainwindow.h>
+#include "mainwindow.h"
 
 MainWindow::MainWindow(int rows,
                        int cols,
@@ -20,8 +19,8 @@ MainWindow::MainWindow(int rows,
                        QWidget *parent,
                        QLabel* unexposed_label) :
     QMainWindow(parent),
-    ui(new Ui::MainWindow),
     ul(unexposed_label),
+    ui(new Ui::MainWindow),
     num_of_cols(cols),
     num_of_rows(rows),
     num_of_bombs(bombs)
@@ -29,7 +28,7 @@ MainWindow::MainWindow(int rows,
     buttons = b;
     ui->setupUi(this);
     game = new Game(num_of_rows, num_of_cols, num_of_bombs);
-    for(int i = 0; i < buttons.size(); i++) {
+    for(std::size_t i = 0; i < buttons.size(); i++) {
         QString str("X");
         buttons[i]->setText(str);
         str.setNum(i);
@@ -39,7 +38,6 @@ MainWindow::MainWindow(int rows,
         QObject::connect(buttons[i], SIGNAL(released()), this, SLOT(clickedSlot()));
     }
     game->ini(unexposed_label);
-    game->start(this, unexposed_label);
 }
 
 void MainWindow::clickedSlot()

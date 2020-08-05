@@ -186,12 +186,6 @@ bool Game::ini(QLabel* unexposed_label) {
     }
     return false; // already initialized
 }
-bool Game::start(QMainWindow* w, QLabel* unexposed_label) {
-    if(board == nullptr) {
-        ini(unexposed_label);
-    }
-    return play_game(w, unexposed_label);
-}
 void Game::print_game_state(QMainWindow* w, QLabel* unexposed_label) {
     if(game_state == GameState::lost) {
         board->print_board(true);
@@ -272,28 +266,4 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
         return std::make_shared<UserPlayResult>(res, GameState::won);
     }
     return std::make_shared<UserPlayResult>(res, GameState::playing);
-}
-
-bool Game::play_game(QMainWindow* w, QLabel* unexposed_label) {
-//    print_game_state();
-//    std::string input;
-//    while (game_state == GameState::playing)
-//    {
-//        std::getline(std::cin, input);
-//        if(input == "exit") {
-//            return false;
-//        }
-//        std::shared_ptr<UserPlay> play = from_string(input);
-//        if(play == nullptr) {
-//            continue;
-//        }
-//        std::shared_ptr<UserPlayResult> result = board->play_flip(play);
-//        if(result->successful_move) {
-//            game_state = result->state;
-//        } else {
-//            std::cout << "Cell (" << play->row << ", " << play->col << ") is not possible to flip.\n";
-//        }
-        print_game_state(w, unexposed_label);
-//    }
-    return true;
 }
