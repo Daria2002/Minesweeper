@@ -21,11 +21,16 @@ public:
                       "stop:1 rgba(217, 73, 73, 255));"
                       "border:none; color:white;}");
         QGridLayout *grid_layout = new QGridLayout;
-        QLabel *label_text = new QLabel;
-        label_text->setText("Number of unexposed fields:");
-        label_data = new QLabel;
-        grid_layout->addWidget(label_text, 0, 0);
-        grid_layout->addWidget(label_data, 0, 1);
+        QLabel *unexposed_fields_label = new QLabel;
+        unexposed_fields_label->setText("Number of unexposed fields:");
+        unexposed_fields_data = new QLabel;
+        grid_layout->addWidget(unexposed_fields_label, 0, 0);
+        grid_layout->addWidget(unexposed_fields_data, 0, 1);
+        QLabel *flagged_bombs_label = new QLabel;
+        flagged_bombs_label->setText("Number of unflagged bombs:");
+        flagged_bombs_data = new QLabel;
+        grid_layout->addWidget(flagged_bombs_label, 1, 0);
+        grid_layout->addWidget(flagged_bombs_data, 1, 1);
         for(int i = 0; i < rows; i++)
         {
             for(int j = 2; j <= cols + 1; j++) {
@@ -39,7 +44,8 @@ public:
         setLayout(grid_layout);
     }
     std::vector<QPushButton*> buttons;
-    QLabel *label_data;
+    QLabel *unexposed_fields_data;
+    QLabel *flagged_bombs_data;
 };
 
 int main(int argc, char *argv[])
@@ -51,7 +57,7 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
     MyWidget* widget = new MyWidget(num_of_rows, num_of_cols);
     MainWindow w(num_of_rows, num_of_cols, num_of_bombs, widget -> buttons,
-                 widget, widget -> label_data);
+                 widget, widget -> unexposed_fields_data);
     widget->show();
     return a.exec();
 }
