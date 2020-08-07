@@ -52,6 +52,7 @@ Board::Board(int r, int c, int b) {
     shuffle_board();
     set_numbered_cells();
     num_of_unexposed = n_rows * n_columns - n_bombs;
+    num_of_unflagged = n_bombs;
 }
 void Board::ini_board() {
     for(int i = 0; i < n_rows; i++) {
@@ -175,18 +176,21 @@ void Board::expand_blank(std::shared_ptr<Cell> cell,
 Game::Game(int r, int c, int b) : rows(r), columns(c), bombs(b) {
     game_state = GameState::playing;
 }
-bool Game::ini(QLabel* unexposed_label) {
+bool Game::ini(QLabel* unexposed_label, QLabel* unflagged_label) {
     if(board == nullptr) {
         board = std::make_shared<Board>(rows, columns, bombs);
         board->print_board(true); // show real board
         QString num_unexposed_str;
         num_unexposed_str.setNum(board->num_of_unexposed);
         unexposed_label->setText(num_unexposed_str);
+        QString num_unflagged_str;
+        num_unflagged_str.setNum(board->n_bombs);
+        unflagged_label->setText(num_unflagged_str);
         return true;
     }
     return false; // already initialized
 }
-void Game::print_game_state(QMainWindow* w, QLabel* unexposed_label) {
+void Game::print_game_state(QMainWindow* w, QLabel* unexposed_label, QLabel* unflagged_label) {
     if(game_state == GameState::lost) {
         board->print_board(true);
         std::cout << "FAIL\n";
@@ -242,6 +246,8 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
     std::shared_ptr<Cell> cell = cells[play->row][play->col];
     if(play->is_guess) {
         bool guess_res = cell->toggle_guess();
+        QString str = "B";
+        buttons[play->row * num_of_cols + play->col]->setText(str);
         return std::make_shared<UserPlayResult>(guess_res, GameState::playing);
     }
     bool res = flip_cell(cell);

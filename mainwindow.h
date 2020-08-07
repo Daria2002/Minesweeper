@@ -17,14 +17,17 @@ class MainWindow : public QMainWindow
 public:
     Game* game;
     QLabel* ul;
+    QLabel* unflagged_l;
     MainWindow(int r,
                int c,
                int bombs,
                std::vector<QPushButton*> b,
                QWidget *parent = 0,
-               QLabel* unexposed_label = nullptr);
+               QLabel* unexposed_label = nullptr,
+               QLabel* unflagged_label = nullptr);
     ~MainWindow();
     void execute();
+    void rightClick();
 private:
     Ui::MainWindow *ui;
     std::vector<QPushButton*> buttons;

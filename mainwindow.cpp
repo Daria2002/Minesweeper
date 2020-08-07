@@ -17,9 +17,11 @@ MainWindow::MainWindow(int rows,
                        int bombs,
                        std::vector<QPushButton*> b,
                        QWidget *parent,
-                       QLabel* unexposed_label) :
+                       QLabel* unexposed_label,
+                       QLabel* unflagged_label) :
     QMainWindow(parent),
     ul(unexposed_label),
+    unflagged_l(unflagged_label),
     ui(new Ui::MainWindow),
     num_of_cols(cols),
     num_of_rows(rows),
@@ -37,11 +39,34 @@ MainWindow::MainWindow(int rows,
         buttons[i]->setMinimumSize(BUTTON_SIZE);
         QObject::connect(buttons[i], SIGNAL(released()), this, SLOT(clickedSlot()));
     }
-    game->ini(unexposed_label);
+    game->ini(unexposed_label, unflagged_label);
 }
 
-void MainWindow::clickedSlot()
-{
+// flag cell
+void MainWindow::rightClick() {
+    int row = (((QPushButton*)sender())->accessibleName()).toInt() / num_of_cols;
+    int col = (((QPushButton*)sender())->accessibleName()).toInt() % num_of_cols;
+    std::shared_ptr<UserPlay> play = game->from_string(row, col);
+    play->is_guess = true;
+    game->board->flip_cell(game->board->cells[row][col]);
+    std::shared_ptr<UserPlayResult> result = game->board->play_flip(play, buttons, num_of_cols);
+    if(result->state == GameState::lost || result->state == GameState::won) {
+        QMessageBox msgBox;
+        msgBox.setWindowTitle("Game status");
+        msgBox.setText(result->state == GameState::lost ? "Game over. You lost." : "Game over. You won.");
+        msgBox.exec();
+        exit(0); // close main window
+        return;
+    }
+    if(result->successful_move) {
+        game->game_state = result -> state;
+    } else {
+        std::cout << "Cell (" << play -> row << ", " << play -> col << ") is not possible to flip.\n";
+    }
+    game->print_game_state(this, ul, unflagged_l);
+}
+
+void MainWindow::clickedSlot() {
     int row = (((QPushButton*)sender())->accessibleName()).toInt() / num_of_cols;
     int col = (((QPushButton*)sender())->accessibleName()).toInt() % num_of_cols;
     if(first_move) {
@@ -66,7 +91,7 @@ void MainWindow::clickedSlot()
     } else {
         std::cout << "Cell (" << play -> row << ", " << play -> col << ") is not possible to flip.\n";
     }
-    game->print_game_state(this, ul);
+    game->print_game_state(this, ul, unflagged_l);
 }
 
 MainWindow::~MainWindow()

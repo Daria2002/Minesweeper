@@ -39,7 +39,7 @@ class Cell {
 
 class Board {
     public:
-        int n_rows, n_columns, n_bombs, num_of_unexposed;
+        int n_rows, n_columns, n_bombs, num_of_unexposed, num_of_unflagged;
         Board() = default;
         Board(int r, int c, int b);
         void ini_board();
@@ -70,8 +70,8 @@ class Game {
         GameState game_state;
         Game() = default;
         Game(int r, int c, int b);
-        bool ini(QLabel* unexposed_label);
-        void print_game_state(QMainWindow* w, QLabel* unexposed_label);
+        bool ini(QLabel* unexposed_label, QLabel* unflagged_label);
+        void print_game_state(QMainWindow* w, QLabel* unexposed_label, QLabel* unflagged_label);
         std::shared_ptr<UserPlay> from_string(int r, int c);
 };
 
