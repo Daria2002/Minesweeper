@@ -8,6 +8,8 @@
 #include <sstream>
 #include <QMainWindow>
 #include <minesweeper.h>
+#include "qrightclickbutton.h"
+
 Cell::Cell(int r, int c) : row(r), column(c) {}
 void Cell::set_bomb(bool bomb) {
     is_bomb = bomb;
@@ -139,7 +141,7 @@ bool Board::flip_cell(std::shared_ptr<Cell> cell) {
     return false;
 }
 void Board::expand_blank(std::shared_ptr<Cell> cell,
-                         std::vector<QPushButton*> buttons,
+                         std::vector<QRightClickButton*> buttons,
                          int num_of_cols) {
     std::vector<std::vector<int>> offsets = {{-1, -1}, {-1, 0}, {-1, 1}, {0, -1}, {0, 1}, {1, -1}, {1, 0}, {1, 1}};
     std::vector<std::shared_ptr<Cell>> to_be_explored;
@@ -238,7 +240,7 @@ std::shared_ptr<UserPlay> Game::from_string(int r, int c) {
 }
 
 std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
-                                                 std::vector<QPushButton*> buttons,
+                                                 std::vector<QRightClickButton*> buttons,
                                                  int num_of_cols) {
     if(in_bounds(play->row, play->col) == false) {
         return std::make_shared<UserPlayResult>(false, GameState::playing);

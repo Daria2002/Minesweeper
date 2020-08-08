@@ -26,11 +26,13 @@ DEFINES += QT_DEPRECATED_WARNINGS
 SOURCES += \
         main.cpp \
         mainwindow.cpp \
-    minesweeper.cpp
+    minesweeper.cpp \
+    qrightclickbutton.cpp
 
 HEADERS += \
         mainwindow.h \
-    minesweeper.h
+    minesweeper.h \
+    qrightclickbutton.h
 
 FORMS += \
         mainwindow.ui

@@ -10,7 +10,7 @@
 #include <sstream>
 #include <QLabel>
 #include <QMainWindow>
-#include <QPushButton>
+#include "qrightclickbutton.h"
 
 class Game;
 class Board;
@@ -49,11 +49,11 @@ class Board {
         void print_board(bool show_real);
         bool flip_cell(std::shared_ptr<Cell> cell);
         void expand_blank(std::shared_ptr<Cell> cell,
-                          std::vector<QPushButton*> buttons,
+                          std::vector<QRightClickButton*> buttons,
                           int num_of_cols);
         std::shared_ptr<Cell> get_cell_at_location(std::shared_ptr<UserPlay>);
         std::shared_ptr<UserPlayResult> play_flip(std::shared_ptr<UserPlay>,
-                                                  std::vector<QPushButton*> buttons,
+                                                  std::vector<QRightClickButton*> buttons,
                                                   int num_of_cols);
         std::vector<std::vector<std::shared_ptr<Cell>>> cells;
         std::vector<std::shared_ptr<Cell>> bombs;

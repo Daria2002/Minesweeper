@@ -15,7 +15,7 @@
 MainWindow::MainWindow(int rows,
                        int cols,
                        int bombs,
-                       std::vector<QPushButton*> b,
+                       std::vector<QRightClickButton*> b,
                        QWidget *parent,
                        QLabel* unexposed_label,
                        QLabel* unflagged_label) :
@@ -37,7 +37,7 @@ MainWindow::MainWindow(int rows,
         buttons[i]->setAccessibleName(str); // set button name to button number
         const QSize BUTTON_SIZE = QSize(22, 22);
         buttons[i]->setMinimumSize(BUTTON_SIZE);
-        QObject::connect(buttons[i], SIGNAL(released()), this, SLOT(clickedSlot()));
+        QObject::connect(buttons[i], SIGNAL(released()), this, SLOT(leftClick()));
     }
     game->ini(unexposed_label, unflagged_label);
 }
@@ -66,7 +66,7 @@ void MainWindow::rightClick() {
     game->print_game_state(this, ul, unflagged_l);
 }
 
-void MainWindow::clickedSlot() {
+void MainWindow::leftClick() {
     int row = (((QPushButton*)sender())->accessibleName()).toInt() / num_of_cols;
     int col = (((QPushButton*)sender())->accessibleName()).toInt() % num_of_cols;
     if(first_move) {

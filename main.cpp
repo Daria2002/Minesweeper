@@ -6,7 +6,6 @@
 #include <QGroupBox>
 #include <QLayout>
 #include <iostream>
-#include <QPushButton>
 #include <vector>
 
 class MyWidget : public QGroupBox
@@ -34,7 +33,7 @@ public:
         for(int i = 0; i < rows; i++)
         {
             for(int j = 2; j <= cols + 1; j++) {
-                QPushButton *button = new QPushButton;
+                QRightClickButton *button = new QRightClickButton;
                 button->setFixedSize(50, 50);
                 button->setText("");
                 buttons.push_back(button);
@@ -43,7 +42,7 @@ public:
         }
         setLayout(grid_layout);
     }
-    std::vector<QPushButton*> buttons;
+    std::vector<QRightClickButton*> buttons;
     QLabel *unexposed_fields_data;
     QLabel *flagged_bombs_data;
 };

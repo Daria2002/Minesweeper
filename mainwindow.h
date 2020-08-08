@@ -2,9 +2,9 @@
 #define MAINWINDOW_H
 #include <QMainWindow>
 #include <QLabel>
-#include <QPushButton>
 #include <vector>
 #include "minesweeper.h"
+#include "qrightclickbutton.h"
 
 namespace Ui {
 class MainWindow;
@@ -21,7 +21,7 @@ public:
     MainWindow(int r,
                int c,
                int bombs,
-               std::vector<QPushButton*> b,
+               std::vector<QRightClickButton*> b,
                QWidget *parent = 0,
                QLabel* unexposed_label = nullptr,
                QLabel* unflagged_label = nullptr);
@@ -30,13 +30,13 @@ public:
     void rightClick();
 private:
     Ui::MainWindow *ui;
-    std::vector<QPushButton*> buttons;
+    std::vector<QRightClickButton*> buttons;
     int num_of_cols;
     int num_of_rows;
     int num_of_bombs;
     bool first_move = true; // flag for the 1st move (1st move cannot be a bomb)
 
 public slots:
-void clickedSlot();
+void leftClick();
 };
 #endif // MAINWINDOW_H
