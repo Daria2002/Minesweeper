@@ -12,6 +12,7 @@
 #include <QMainWindow>
 #include "qrightclickbutton.h"
 
+class QRightClickButton;
 class Game;
 class Board;
 class Cell;
