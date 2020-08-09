@@ -18,7 +18,8 @@ MainWindow::MainWindow(int rows,
                        std::vector<QRightClickButton*> b,
                        QWidget *parent,
                        QLabel* unexposed_label,
-                       QLabel* unflagged_label) :
+                       QLabel* unflagged_label,
+                       Game* g) :
     QMainWindow(parent),
     ul(unexposed_label),
     unflagged_l(unflagged_label),
@@ -29,7 +30,7 @@ MainWindow::MainWindow(int rows,
 {
     buttons = b;
     ui->setupUi(this);
-    game = new Game(num_of_rows, num_of_cols, num_of_bombs);
+    game = g;
     for(std::size_t i = 0; i < buttons.size(); i++) {
         QString str("X");
         buttons[i]->setText(str);
@@ -69,13 +70,6 @@ void MainWindow::rightClick() {
 void MainWindow::leftClick() {
     int row = (((QPushButton*)sender())->accessibleName()).toInt() / num_of_cols;
     int col = (((QPushButton*)sender())->accessibleName()).toInt() % num_of_cols;
-    if(first_move) {
-        first_move = false;
-        // shuffle board until first move is not a bomb
-        while(game->board->cells[row][col]->is_bomb) {
-            game->board->shuffle_board();
-        }
-    }
     std::shared_ptr<UserPlay> play = game->from_string(row, col);
     std::shared_ptr<UserPlayResult> result = game->board->play_flip(play, buttons, num_of_cols);
     if(result->state == GameState::lost || result->state == GameState::won) {

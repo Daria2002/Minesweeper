@@ -174,7 +174,6 @@ void Board::expand_blank(std::shared_ptr<Cell> cell,
         }
     }
 }
-
 Game::Game(int r, int c, int b) : rows(r), columns(c), bombs(b) {
     game_state = GameState::playing;
 }
@@ -206,6 +205,9 @@ void Game::print_game_state(QMainWindow* w, QLabel* unexposed_label, QLabel* unf
         std::cout << "Number of unexposed elements: " << board->num_of_unexposed << '\n';
         board->print_board(false);
     }
+}
+void Game::ini_buttons(std::vector<QRightClickButton *> btns) {
+    buttons = btns;
 }
 
 UserPlayResult::UserPlayResult(bool sm, GameState s) : successful_move(sm), state(s) {}
@@ -242,6 +244,13 @@ std::shared_ptr<UserPlay> Game::from_string(int r, int c) {
 std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
                                                  std::vector<QRightClickButton*> buttons,
                                                  int num_of_cols) {
+    if(first_move) {
+        first_move = false;
+        // shuffle board until first move is not a bomb
+        while(cells[play->row][play->col]->is_bomb) {
+            shuffle_board();
+        }
+    }
     if(in_bounds(play->row, play->col) == false) {
         return std::make_shared<UserPlayResult>(false, GameState::playing);
     }

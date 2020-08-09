@@ -40,6 +40,7 @@ class Cell {
 
 class Board {
     public:
+        bool first_move = true;
         int n_rows, n_columns, n_bombs, num_of_unexposed, num_of_unflagged;
         Board() = default;
         Board(int r, int c, int b);
@@ -67,6 +68,7 @@ enum GameState {
 class Game {
     public:
         int rows, columns, bombs;
+        std::vector<QRightClickButton*> buttons;
         std::shared_ptr<Board> board;
         GameState game_state;
         Game() = default;
@@ -74,6 +76,7 @@ class Game {
         bool ini(QLabel* unexposed_label, QLabel* unflagged_label);
         void print_game_state(QMainWindow* w, QLabel* unexposed_label, QLabel* unflagged_label);
         std::shared_ptr<UserPlay> from_string(int r, int c);
+        void ini_buttons(std::vector<QRightClickButton*> btns);
 };
 
 class UserPlayResult {

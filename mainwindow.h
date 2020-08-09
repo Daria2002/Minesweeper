@@ -24,7 +24,8 @@ public:
                std::vector<QRightClickButton*> b,
                QWidget *parent = 0,
                QLabel* unexposed_label = nullptr,
-               QLabel* unflagged_label = nullptr);
+               QLabel* unflagged_label = nullptr,
+               Game* g = nullptr);
     ~MainWindow();
     void execute();
     void rightClick();

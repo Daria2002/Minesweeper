@@ -11,7 +11,7 @@
 class MyWidget : public QGroupBox
 {
 public:
-    MyWidget(int rows, int cols, QWidget *parent = 0) : QGroupBox(parent)
+    MyWidget(int rows, int cols, Game *game, QWidget *parent = 0) : QGroupBox(parent)
     {
         setTitle("Minesweeper");
         setStyleSheet("QPushButton{background-color: qlineargradient(spread:pad, x1:1, y1:0.682,"
@@ -33,13 +33,14 @@ public:
         for(int i = 0; i < rows; i++)
         {
             for(int j = 2; j <= cols + 1; j++) {
-                QRightClickButton *button = new QRightClickButton;
+                QRightClickButton *button = new QRightClickButton(this, game);
                 button->setFixedSize(50, 50);
                 button->setText("");
                 buttons.push_back(button);
                 grid_layout->addWidget(button, i, j);
             }
         }
+        game->ini_buttons(buttons);
         setLayout(grid_layout);
     }
     std::vector<QRightClickButton*> buttons;
@@ -54,9 +55,12 @@ int main(int argc, char *argv[])
     const int num_of_bombs = 5;
     std::cout << "Main function starts\n";
     QApplication a(argc, argv);
-    MyWidget* widget = new MyWidget(num_of_rows, num_of_cols);
+    Game* game;
+    game = new Game(num_of_rows, num_of_cols, num_of_bombs);
+    MyWidget* widget = new MyWidget(num_of_rows, num_of_cols, game);
     MainWindow w(num_of_rows, num_of_cols, num_of_bombs, widget->buttons,
-                 widget, widget->unexposed_fields_data, widget->flagged_bombs_data);
+                 widget, widget->unexposed_fields_data, widget->flagged_bombs_data,
+                 game);
     widget->show();
     return a.exec();
 }
