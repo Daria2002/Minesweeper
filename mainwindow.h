@@ -28,7 +28,6 @@ public:
                Game* g = nullptr);
     ~MainWindow();
     void execute();
-    void rightClick();
 private:
     Ui::MainWindow *ui;
     std::vector<QRightClickButton*> buttons;
@@ -39,5 +38,6 @@ private:
 
 public slots:
 void leftClick();
+void rightClick();
 };
 #endif // MAINWINDOW_H

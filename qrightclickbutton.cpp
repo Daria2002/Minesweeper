@@ -7,17 +7,17 @@ QRightClickButton::QRightClickButton(QWidget *parent) : QPushButton(parent) {}
 QRightClickButton::QRightClickButton(QWidget *parent, Game *g) : QPushButton(parent) {
     game = g;
 }
-void rightClicked() {
-
+void right() {
+    std::cout << "right\n";
 }
-void leftClicked() {
-
+void left() {
+    std::cout << "left\n";
 }
 void QRightClickButton::mousePressEvent(QMouseEvent *e) {
     if(e->button() == Qt::RightButton) {
-        emit rightClicked();
+        emit right();
     } else {
-        emit leftClicked();
+        emit left();
     }
-    QRightClickButton::mousePressEvent(e);
+    QPushButton::mousePressEvent(e);
 }

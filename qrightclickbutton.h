@@ -17,8 +17,8 @@ public:
 private slots:
     void mousePressEvent(QMouseEvent *e);
 signals:
-    void rightClicked();
-    void leftClicked();
+    void right();
+    void left();
 public slots:
 };
 
