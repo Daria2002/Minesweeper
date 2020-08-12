@@ -38,7 +38,6 @@ MainWindow::MainWindow(int rows,
         buttons[i]->setAccessibleName(str); // set button name to button number
         const QSize BUTTON_SIZE = QSize(22, 22);
         buttons[i]->setMinimumSize(BUTTON_SIZE);
-//        QObject::connect(buttons[i], SIGNAL(released()), this, SLOT(leftClick()));
         QObject::connect(buttons[i], SIGNAL(right()), this, SLOT(rightClick()));
         QObject::connect(buttons[i], SIGNAL(left()), this, SLOT(leftClick()));
     }

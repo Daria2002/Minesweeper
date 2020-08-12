@@ -41,7 +41,7 @@ class Cell {
 class Board {
     public:
         bool first_move = true;
-        int n_rows, n_columns, n_bombs, num_of_unexposed, num_of_unflagged;
+        int n_rows, n_columns, n_bombs, num_of_unexposed, unflagged;
         Board() = default;
         Board(int r, int c, int b);
         void ini_board();
@@ -59,6 +59,8 @@ class Board {
                                                   int num_of_cols);
         std::vector<std::vector<std::shared_ptr<Cell>>> cells;
         std::vector<std::shared_ptr<Cell>> bombs;
+        std::vector<std::shared_ptr<Cell>> flagged_bombs;
+        QLabel *flagged_bombs_data;
 };
 
 enum GameState {

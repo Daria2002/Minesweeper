@@ -6,6 +6,7 @@
 #include <string>
 #include <QLabel>
 #include <sstream>
+#include <algorithm>
 #include <QMainWindow>
 #include <minesweeper.h>
 #include "qrightclickbutton.h"
@@ -54,7 +55,7 @@ Board::Board(int r, int c, int b) {
     shuffle_board();
     set_numbered_cells();
     num_of_unexposed = n_rows * n_columns - n_bombs;
-    num_of_unflagged = n_bombs;
+    unflagged = bombs.size() - flagged_bombs.size();
 }
 void Board::ini_board() {
     for(int i = 0; i < n_rows; i++) {
@@ -258,7 +259,22 @@ std::shared_ptr<UserPlayResult> Board::play_flip(std::shared_ptr<UserPlay> play,
     if(play->is_guess) {
         bool guess_res = cell->toggle_guess();
         QString str = "B";
+        std::vector<std::shared_ptr<Cell>>::iterator it = std::find(flagged_bombs.begin(), flagged_bombs.end(), cell);
+        if(it == flagged_bombs.end()) {
+            // cell is not flagged yet
+            flagged_bombs.push_back(cell);
+            unflagged--;
+        } else {
+            // cell is already flagged, so unflag it
+            str = "X";
+            flagged_bombs.erase(it);
+            unflagged++;
+        }
         buttons[play->row * num_of_cols + play->col]->setText(str);
+        // update unflagged label with size of bombs - flagged_bombs
+        QString num_of_unflagged;
+        num_of_unflagged.setNum(unflagged);
+        flagged_bombs_data->setText(num_of_unflagged);
         return std::make_shared<UserPlayResult>(guess_res, GameState::playing);
     }
     bool res = flip_cell(cell);

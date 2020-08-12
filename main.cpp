@@ -61,6 +61,7 @@ int main(int argc, char *argv[])
     MainWindow w(num_of_rows, num_of_cols, num_of_bombs, widget->buttons,
                  widget, widget->unexposed_fields_data, widget->flagged_bombs_data,
                  game);
+    game->board->flagged_bombs_data = widget->flagged_bombs_data;
     widget->show();
     return a.exec();
 }
